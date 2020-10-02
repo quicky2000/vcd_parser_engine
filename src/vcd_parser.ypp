@@ -1,0 +1,117 @@
+/* -*- C++ -*- */
+/*
+      This file is part of vcd_parser
+      Copyright (C) 2020 Julien Thevenon ( julien_thevenon at yahoo.fr )
+
+      This program is free software: you can redistribute it and/or modify
+      it under the terms of the GNU General Public License as published by
+      the Free Software Foundation, either version 3 of the License, or
+      (at your option) any later version.
+
+      This program is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU General Public License for more details.
+
+      You should have received a copy of the GNU General Public License
+      along with this program.  If not, see <http://www.gnu.org/licenses/>
+*/
+
+%skeleton "lalr1.cc"
+%require "3.0.4"
+%defines
+%define parser_class_name {vcd_parser}
+%define api.token.constructor
+%define api.value.type variant
+%define parse.assert
+%define api.namespace {vcd_parser_engine}
+%define api.prefix {bison_prefix}
+%code requires
+{
+    # include <string>
+    typedef void* yyscan_t;
+    namespace vcd_parser_engine
+    {
+        class vcd_driver;
+    }
+}
+// The parsing context.
+%param { yyscan_t yyscanner }
+%param { vcd_parser_engine::vcd_driver& driver_param }
+%param { vcd_parser::location_type * loc}
+%param { vcd_parser::semantic_type * type}
+
+%locations
+%initial-action
+{
+    @$.begin.filename = @$.end.filename = &const_cast<std::string &>(driver_param.get_stream_name());
+};
+%define parse.trace
+%define parse.error verbose
+%code
+{
+#include "vcd_driver.h"
+}
+
+%debug
+%verbose
+%start value_change_dump_definitions
+
+%token               END_OF_STREAM        0     "end of stream"
+%token               EOL                        "end of line"
+%token <uint64_t> INTEGER                    "integer"
+%token <double>  DOUBLE                     "double"
+%token <std::string>  STRING                     "string"
+%token               SEMICOLON                  ";"
+%token               COLON                      ":"
+%token               COMMA                      ","
+%token               EQUAL                      "="
+%token               TILD                       "~"
+%token               UNKNOWN                    "unknown token"
+%printer { yyoutput << $$; } <*>;
+
+%right EOL
+
+%type <string_val> a_rule
+
+
+%code provides
+{
+    #define YYSTYPE vcd_parser_engine::vcd_parser::semantic_type
+    #define YYLTYPE vcd_parser_engine::vcd_parser::location_type
+    // Tell Flex the lexer's prototype ...
+    # define YY_DECL \
+    vcd_parser_engine::vcd_parser::symbol_type bison_prefixlex (yyscan_t yyscanner, vcd_parser_engine::vcd_driver& driver,vcd_parser_engine::vcd_parser::location_type * yylloc_param, vcd_parser_engine::vcd_parser::semantic_type * yylval_param)
+    // ... and declare it for the parser's sake.
+                YY_DECL;
+}
+
+%%
+
+value_change_dump_definitions : /* %empty */
+{
+    //driver_param.set_node(*new node_empty());
+}
+|
+{
+    //assert($1);
+    //const node_configuration & l_node = *$1;
+    //driver_param.set_node(l_node);
+}
+;
+
+
+%%
+
+namespace vcd_parser_engine
+{
+    //----------------------------------------------------------------------------
+    void vcd_parser::error( const vcd_parser::location_type & p_location
+                          , const std::string & p_message
+                          )
+    {
+        driver_param.error(p_location, p_message);
+    }
+
+}
+// EOF
