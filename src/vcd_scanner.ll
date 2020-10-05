@@ -24,6 +24,7 @@
 
 #include "vcd_driver.h"
 #include "vcd_parser.hpp"
+#include "quicky_exception.h"
 
 typedef vcd_parser_engine::vcd_parser::token      token;
 typedef vcd_parser_engine::vcd_parser::token_type token_type;
@@ -38,10 +39,15 @@ typedef vcd_parser_engine::vcd_parser::token_type token_type;
 
 %}
 
-%option bison-bridge bison-locations reentrant
-%option noyywrap nounput batch debug noinput
+%option bison-bridge bison-locations reentrant warn
+%option noyywrap nounput batch debug noinput nodefault
 %option prefix="flex_prefix"
 
+/* Definitions */
+/*Digit [0-9]*/
+Blank [\t]|[\040]
+
+/*DecimalNumber ({Digit})+*/
 
 /* Location tracking */
 %{
@@ -50,8 +56,8 @@ typedef vcd_parser_engine::vcd_parser::token_type token_type;
 
 %x VCD_COMMENT
 %x VCD_DATE
-%x IPTG_DIRECTIVE_COMMENT
-%x INCLUDE_DIRECTIVE
+%x VCD_VERSION
+%x VCD_TIMESCALE
 
 %%
 
@@ -62,10 +68,44 @@ typedef vcd_parser_engine::vcd_parser::token_type token_type;
 yylloc->step();
 %}
 
-<INITIAL>\$comment {
-    //std::cout << "ICI" << std::endl;
-                  BEGIN(VCD_COMMENT);
+\$comment {
+    if(yy_flex_debug)
+    {
+        std::cout << " --> $comment token @" << *yylloc << std::endl;
+    }
+    //yylloc->lines();
+    yylloc->step();
+    BEGIN(VCD_COMMENT);
 }
+
+\$timescale {
+    if(yy_flex_debug)
+    {
+        std::cout << " --> $timescale token @" << *yylloc << std::endl;
+    }
+    //yylloc->lines();
+    yylloc->step();
+    BEGIN(VCD_TIMESCALE);
+}
+
+\$date {
+    if(yy_flex_debug)
+    {
+        std::cout << " --> $date token @" << *yylloc << std::endl;
+    }
+    //yylloc->lines();
+    yylloc->step();
+    BEGIN(VCD_DATE);
+};
+
+\$version {
+    if(yy_flex_debug)
+    {
+        std::cout << " --> $version token @" << *yylloc << std::endl;
+    }
+    yylloc->step();
+    BEGIN(VCD_VERSION);
+};
 
 <VCD_COMMENT>^(\$end) {
 // ignore comment in chunks
@@ -81,23 +121,86 @@ yylloc->step();
     BEGIN(INITIAL);
 }
 
-\$date {
-
+<VCD_DATE,VCD_VERSION>[^\$\n]* {
+    std::string l_string(yytext, yyleng);
+    std::string l_start_condition;
+    switch(YYSTATE)
+    {
+        case INITIAL:
+            l_start_condition = "INITIAL";
+            break;
+        case VCD_COMMENT:
+            l_start_condition = "VCD_COMMENT";
+            break;
+        case VCD_DATE:
+            l_start_condition = "VCD_DATE";
+            break;
+        case VCD_VERSION:
+            l_start_condition = "VCD_VERSION";
+            break;
+        default:
+            throw quicky_exception::quicky_logic_exception("Unknown start condition " + std::to_string(YYSTATE), __LINE__, __FILE__);
+    }
     if(yy_flex_debug)
     {
-        std::cout << " $date token @" << *yylloc << std::endl;
+        std::cout << R"( --> After start condition ")" << l_start_condition << R"(" ")" << l_string << R"(" @)" << *yylloc << std::endl;
     }
+}
 
+<VCD_TIMESCALE>{Blank}+ {
+    if(yy_flex_debug)
+    {
+        std::cout << " --> " << yyleng << " spaces @ " << *yylloc << std::endl;
+    }
+}
+
+<VCD_TIMESCALE>10{0,2} {
+    std::string l_string(yytext, yyleng);
+    if(yy_flex_debug)
+    {
+        std::cout << " --> Timescale number " << l_string << " @" << *yylloc << std::endl;
+    }
+}
+
+<VCD_TIMESCALE>(m|u|n|p|f)?s {
+    std::string l_string(yytext, yyleng);
+    if(yy_flex_debug)
+    {
+        std::cout << R"( --> Timescale unit ")" << l_string << R"(" @)" << *yylloc << std::endl;
+    }
+}
+
+<VCD_DATE,VCD_VERSION,VCD_TIMESCALE>\$end {
+if(yy_flex_debug)
+{
+std::cout << " --> End keyword @" << *yylloc << std::endl;
+}
+BEGIN(INITIAL);
+}
+
+\$scope {
+    if(yy_flex_debug)
+    {
+        std::cout << " --> Scope keyword @" << *yylloc << std::endl;
+    }
+}
+
+<*>\r\n {
+    if(yy_flex_debug)
+    {
+        std::cout << " --> End of line CR @" << *yylloc << std::endl;
+    }
+    yylloc->lines();
+    yylloc->step();
 };
 
-\r\n {
-yylloc->lines();
-yylloc->step();
-};
-
-\n {
-yylloc->lines();
-yylloc->step();
+<*>\n {
+    if(yy_flex_debug)
+    {
+        std::cout << " --> End of line R @" << *yylloc << std::endl;
+    }
+    yylloc->lines();
+    yylloc->step();
 };
 
 . {
