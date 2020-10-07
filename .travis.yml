@@ -1,0 +1,31 @@
+matrix:
+  include:
+    - os: linux
+      sudo: required
+      dist: bionic
+      compiler: gcc
+
+language: cpp
+
+before_install:
+  - MY_LOCATION=`pwd`
+  - mkdir ../repositories
+  - cd ..
+  - mv $MY_LOCATION repositories
+  - QUICKY_REPOSITORY=`pwd`/repositories
+  - export QUICKY_REPOSITORY
+  - MY_LOCATION=`pwd`
+  - cd $MY_LOCATION/repositories
+  - git clone https://github.com/quicky2000/quicky_tools.git
+  - git clone https://github.com/quicky2000/quicky_exception.git
+  - git clone https://github.com/quicky2000/parameter_manager.git
+  - cd quicky_tools/setup
+  - . setup.sh
+  - cd $MY_LOCATION
+  - chmod a+x repositories/quicky_tools/bin/*
+
+script:
+  - mkdir build; cd build; generate_makefile vcd_parser_engine ; make test
+  - cd $MY_LOCATION ; mkdir cmake_build ; cd cmake_build ; cmake $QUICKY_REPOSITORY/vcd_parser_engine
+  - make
+#EOF
