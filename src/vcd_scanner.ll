@@ -116,7 +116,7 @@ Blank [\t]|[\040]
 LowerCaseLetter [a-z]
 UpperCaseLetter [A-Z]
 Letter {LowerCaseLetter}|{UpperCaseLetter}
-Identifier {Letter}({Letter}|Digit)*
+Identifier ({Letter}|{Digit})({Letter}|{Digit}|\/|_|\[|\])*
 DecimalNumber ({Digit})+
 Exponent (E|e)(\+|-)?{DecimalNumber}
 RealNumber ({Digit})+(\.{Digit}+)?({Exponent})?
