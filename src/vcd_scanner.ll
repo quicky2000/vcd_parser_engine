@@ -90,7 +90,6 @@ yylloc->step();
     {
         std::cout << " --> $comment token @" << *yylloc << std::endl;
     }
-    //yylloc->lines();
     yylloc->step();
     switch(YYSTATE)
     {
@@ -178,6 +177,7 @@ yylloc->step();
     {
         std::cout << " --> " << yyleng << " spaces @ " << *yylloc << std::endl;
     }
+    yylloc->step();
 }
 
 <VCD_TIMESCALE>10{0,2} {
@@ -186,6 +186,7 @@ yylloc->step();
     {
         std::cout << " --> Timescale number " << l_string << " @" << *yylloc << std::endl;
     }
+    yylloc->step();
 }
 
 <VCD_TIMESCALE>(m|u|n|p|f)?s {
@@ -222,6 +223,7 @@ yylloc->step();
         std::cout << " --> $enddefinitions keyword @" << *yylloc << std::endl;
     }
     BEGIN(VCD_SIMULATION);
+    yylloc->step();
 }
 
 <VCD_SIMULATION>\$dumpvars {
@@ -229,6 +231,7 @@ yylloc->step();
     {
         std::cout << " --> $dumpvars keyword @" << *yylloc << std::endl;
     }
+    yylloc->step();
 }
 
 <VCD_SIMULATION>\$dumpall {
@@ -236,6 +239,7 @@ yylloc->step();
     {
         std::cout << " --> $dumpall keyword @" << *yylloc << std::endl;
     }
+    yylloc->step();
 }
 
 <VCD_SIMULATION>\$dumpon {
@@ -243,6 +247,7 @@ yylloc->step();
     {
         std::cout << " --> $dumpon keyword @" << *yylloc << std::endl;
     }
+    yylloc->step();
 }
 
 <VCD_SIMULATION>\$dumpoff {
@@ -250,6 +255,7 @@ yylloc->step();
     {
         std::cout << " --> $dumpoff keyword @" << *yylloc << std::endl;
     }
+    yylloc->step();
 }
 
 \$scope {
@@ -258,6 +264,7 @@ yylloc->step();
         std::cout << " --> Scope keyword @" << *yylloc << std::endl;
     }
     BEGIN(VCD_SCOPE);
+    yylloc->step();
 }
 
 \$upscope {
@@ -265,6 +272,7 @@ yylloc->step();
     {
         std::cout << " --> Upscope keyword @" << *yylloc << std::endl;
     }
+    yylloc->step();
 }
 
 <VCD_SCOPE>begin {
@@ -272,6 +280,7 @@ yylloc->step();
         {
             std::cout << " --> Begin keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_SCOPE>fork {
@@ -279,6 +288,7 @@ yylloc->step();
         {
             std::cout << " --> Fork keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_SCOPE>function {
@@ -286,6 +296,7 @@ yylloc->step();
         {
             std::cout << " --> Function keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_SCOPE>module {
@@ -293,6 +304,7 @@ yylloc->step();
         {
             std::cout << " --> Module keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_SCOPE>task {
@@ -300,6 +312,7 @@ yylloc->step();
         {
             std::cout << " --> Task keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>event {
@@ -307,6 +320,7 @@ yylloc->step();
         {
             std::cout << " --> Event keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>integer {
@@ -314,6 +328,7 @@ yylloc->step();
         {
             std::cout << " --> Integer keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>parameter {
@@ -321,6 +336,7 @@ yylloc->step();
         {
             std::cout << " --> Parameter keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>real {
@@ -328,6 +344,7 @@ yylloc->step();
         {
             std::cout << " --> Real keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>reg {
@@ -335,6 +352,7 @@ yylloc->step();
         {
             std::cout << " --> Reg keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>supply0 {
@@ -342,6 +360,7 @@ yylloc->step();
         {
             std::cout << " --> Supply0 keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>supply1 {
@@ -349,6 +368,7 @@ yylloc->step();
         {
             std::cout << " --> Supply1 keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>time {
@@ -356,6 +376,7 @@ yylloc->step();
         {
             std::cout << " --> Time keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>tri {
@@ -363,6 +384,7 @@ yylloc->step();
         {
             std::cout << " --> Tir keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>triand {
@@ -370,6 +392,7 @@ yylloc->step();
         {
             std::cout << " --> Triand keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>trior {
@@ -377,6 +400,7 @@ yylloc->step();
         {
             std::cout << " --> Trior keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>trireg {
@@ -384,6 +408,7 @@ yylloc->step();
         {
             std::cout << " --> Trireg keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>tri0 {
@@ -391,6 +416,7 @@ yylloc->step();
         {
             std::cout << " --> Tri0 keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>tri1 {
@@ -398,6 +424,7 @@ yylloc->step();
         {
             std::cout << " --> Tri1 keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>wand {
@@ -405,6 +432,7 @@ yylloc->step();
         {
             std::cout << " --> Wand keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>wire {
@@ -412,6 +440,7 @@ yylloc->step();
         {
             std::cout << " --> Wire keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_VAR>wor {
@@ -419,6 +448,7 @@ yylloc->step();
         {
             std::cout << " --> Wor keyword @" << *yylloc << std::endl;
         }
+        yylloc->step();
 };
 
 <VCD_SIMULATION>{SingleValue} {
@@ -428,6 +458,7 @@ yylloc->step();
         std::cout << " --> Single Value " << l_string << " @" << *yylloc << std::endl;
     }
     BEGIN(VCD_VALUE_CHANGE);
+    yylloc->step();
 }
 
 <VCD_VAR,VCD_VAR_REFERENCE,VCD_SIMULATION>{DecimalNumber} {
@@ -436,6 +467,7 @@ yylloc->step();
     {
         std::cout << " --> Decimal number " << l_string << " @" << *yylloc << std::endl;
     }
+    yylloc->step();
 }
 
 <VCD_VECTOR_VALUE_CHANGE>{VectorValue} {
@@ -445,6 +477,7 @@ yylloc->step();
         std::cout << " --> Vector Value " << l_string << " @" << *yylloc << std::endl;
     }
     BEGIN(VCD_VALUE_CHANGE);
+    yylloc->step();
 }
 
 <VCD_REAL_VALUE_CHANGE>{RealNumber}|x|X {
@@ -454,6 +487,7 @@ yylloc->step();
         std::cout << " --> Real Value " << l_string << " @" << *yylloc << std::endl;
     }
     BEGIN(VCD_VALUE_CHANGE);
+    yylloc->step();
 }
 
 <VCD_SIMULATION>b|B {
@@ -462,6 +496,7 @@ yylloc->step();
         std::cout << " --> Binary vector value change @" << *yylloc << std::endl;
     }
     BEGIN(VCD_VECTOR_VALUE_CHANGE);
+    yylloc->step();
 }
 
 <VCD_SIMULATION>r|R {
@@ -470,6 +505,7 @@ yylloc->step();
         std::cout << " --> Real Value change @" << *yylloc << std::endl;
     }
     BEGIN(VCD_REAL_VALUE_CHANGE);
+    yylloc->step();
 }
 
 <VCD_SIMULATION># {
@@ -477,10 +513,11 @@ yylloc->step();
     {
         std::cout << " --> Timestamp marker @" << *yylloc << std::endl;
     }
+    yylloc->step();
 }
 
 <VCD_SIMULATION>\<Out\ of\ memory\> {
-
+    yylloc->step();
 }
 
 <*>\r\n {
@@ -497,13 +534,15 @@ yylloc->step();
     {
         std::cout << " --> '[' @" << *yylloc << std::endl;
     }
+    yylloc->step();
 }
 
 <VCD_VAR_REFERENCE>\] {
-if(yy_flex_debug)
-{
-std::cout << " --> ']' @" << *yylloc << std::endl;
-}
+    if(yy_flex_debug)
+    {
+        std::cout << " --> ']' @" << *yylloc << std::endl;
+    }
+    yylloc->step();
 }
 
 <VCD_VAR_REFERENCE>\: {
@@ -511,6 +550,7 @@ std::cout << " --> ']' @" << *yylloc << std::endl;
     {
         std::cout << " --> ':' @" << *yylloc << std::endl;
     }
+    yylloc->step();
 }
 
 <VCD_VAR,VCD_VAR_NAME,VCD_VALUE_CHANGE>{GenericIdentifier} {
@@ -533,6 +573,7 @@ std::cout << " --> ']' @" << *yylloc << std::endl;
         default:
             BEGIN(VCD_VAR);
     }
+    yylloc->step();
 }
 
 <VCD_SCOPE>{Identifier} {
@@ -541,7 +582,9 @@ std::cout << " --> ']' @" << *yylloc << std::endl;
     {
         std::cout << R"( --> Identifier ")" << l_string << R"(" @)" << *yylloc << std::endl;
     }
+    yylloc->step();
 }
+
 <*>\n {
     if(yy_flex_debug)
     {
