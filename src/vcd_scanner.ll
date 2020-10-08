@@ -144,6 +144,7 @@ VectorValue {SingleValue}+
 %x VCD_VECTOR_VALUE_CHANGE
 %x VCD_REAL_VALUE_CHANGE
 %x VCD_TIMESTAMP
+%x VCD_OUT_OF_MEMORY
 %%
 
 %{
@@ -431,6 +432,7 @@ yylloc->step();
 <VCD_SIMULATION>\<Out\ of\ memory\> {
     DEBUG_KEYWORD();
     yylloc->step();
+    BEGIN_STATE(VCD_OUT_OF_MEMORY);
 }
 
 <*>\r\n {
@@ -485,6 +487,12 @@ yylloc->step();
     yylloc->lines();
     yylloc->step();
 };
+
+<VCD_OUT_OF_MEMORY>. {
+    // Ignore content
+    DEBUG_TOKEN_CONTENT("Ignore character");
+    yylloc->step();
+}
 
 . {
     DEBUG_TOKEN_CONTENT("UNKNOWN TOKEN");
@@ -552,6 +560,9 @@ std::string flex_prefix_start_condition_to_string(int p_start_condition)
             break;
         case VCD_TIMESTAMP:
             return "VCD_TIMESTAMP";
+            break;
+        case VCD_OUT_OF_MEMORY:
+            return "VCD_OUT_OF_MEMORY";
             break;
         default:
             quicky_exception::quicky_logic_exception("Unknown start condition value : " + std::to_string(p_start_condition), __LINE__, __FILE__);
