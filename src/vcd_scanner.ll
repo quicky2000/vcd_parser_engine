@@ -143,6 +143,7 @@ VectorValue {SingleValue}+
 %x VCD_VALUE_CHANGE
 %x VCD_VECTOR_VALUE_CHANGE
 %x VCD_REAL_VALUE_CHANGE
+%x VCD_TIMESTAMP
 %%
 
 %{
@@ -385,10 +386,14 @@ yylloc->step();
     yylloc->step();
 }
 
-<VCD_VAR,VCD_VAR_REFERENCE,VCD_SIMULATION>{DecimalNumber} {
+<VCD_VAR,VCD_VAR_REFERENCE,VCD_TIMESTAMP>{DecimalNumber} {
     std::string l_string(yytext, yyleng);
     DEBUG_TOKEN_CONTENT("Decimal number");
     yylloc->step();
+    if(VCD_TIMESTAMP == YYSTATE)
+    {
+        BEGIN_STATE(VCD_SIMULATION);
+    }
 }
 
 <VCD_VECTOR_VALUE_CHANGE>{VectorValue} {
@@ -419,6 +424,7 @@ yylloc->step();
 
 <VCD_SIMULATION># {
     DEBUG_TOKEN("Timestamp marker");
+    BEGIN_STATE(VCD_TIMESTAMP);
     yylloc->step();
 }
 
@@ -543,6 +549,9 @@ std::string flex_prefix_start_condition_to_string(int p_start_condition)
             break;
         case VCD_REAL_VALUE_CHANGE:
             return "VCD_REAL_VALUE_CHANGE";
+            break;
+        case VCD_TIMESTAMP:
+            return "VCD_TIMESTAMP";
             break;
         default:
             quicky_exception::quicky_logic_exception("Unknown start condition value : " + std::to_string(p_start_condition), __LINE__, __FILE__);
