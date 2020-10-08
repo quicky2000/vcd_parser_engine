@@ -28,4 +28,5 @@ script:
   - mkdir build; cd build; generate_makefile vcd_parser_engine ; make test
   - cd $MY_LOCATION ; mkdir cmake_build ; cd cmake_build ; cmake $QUICKY_REPOSITORY/vcd_parser_engine
   - make
+  - ./vcd_parser_engine $QUICKY_REPOSITORY/vcd_parser_engine/test_cases/trace.vcd
 #EOF

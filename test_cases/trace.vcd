@@ -1,0 +1,170 @@
+$date
+     Jan 14, 2016       21:57:48
+$end
+
+$version
+ SystemC 2.3.1-Accellera --- Jul  9 2014 08:30:48
+$end
+
+$timescale
+     1 ps
+$end
+
+$scope module SystemC $end
+$var wire    1  aaaaa  top.wireworld.clk       $end
+$var wire   32  aaaab  top.wireworld.nb_electron [31:0]  $end
+$var wire   32  aaaac  top.wireworld.generation [31:0]  $end
+$var real   64  aaaad  real_number  $end
+
+$scope module AF_SCAN_CHAIN_GEN $end
+
+$scope begin 0 $end
+
+$scope module af_scan_chain_ff_bit $end
+$var wire 1 8j# af_scan_ff $end
+$var wire 1 9j# clk_af $end
+$var wire 1 :j# data_input $end
+$var wire 1 ;j# data_output $end
+$var wire 1 <j# rst_af_n $end
+$upscope $end
+
+$upscope $end
+
+$upscope $end
+
+$upscope $end
+$enddefinitions  $end
+
+$comment
+All initial values are dumped below at time 0 sec = 0 timescale units.
+$end
+
+$dumpvars
+0aaaaa
+b0 aaaab
+b0 aaaac
+$end
+
+#5000
+1aaaaa
+b1 aaaab
+
+#10000
+0aaaaa
+
+#15000
+1aaaaa
+b1 aaaac
+
+#20000
+0aaaaa
+
+#25000
+1aaaaa
+b10 aaaac
+
+#30000
+0aaaaa
+
+#35000
+1aaaaa
+b11 aaaac
+
+#40000
+0aaaaa
+
+#45000
+1aaaaa
+b100 aaaac
+
+#50000
+0aaaaa
+
+#55000
+1aaaaa
+b101 aaaac
+
+#60000
+0aaaaa
+
+#65000
+1aaaaa
+b110 aaaac
+
+#70000
+0aaaaa
+
+#75000
+1aaaaa
+b111 aaaac
+
+#80000
+0aaaaa
+
+#85000
+1aaaaa
+b1000 aaaac
+
+#90000
+0aaaaa
+
+#95000
+1aaaaa
+b1001 aaaac
+
+#100000
+0aaaaa
+
+#105000
+1aaaaa
+b1010 aaaac
+
+#110000
+0aaaaa
+
+#115000
+1aaaaa
+b1011 aaaac
+
+#120000
+0aaaaa
+
+#125000
+1aaaaa
+b1100 aaaac
+
+#130000
+0aaaaa
+
+#135000
+1aaaaa
+b1101 aaaac
+
+#140000
+0aaaaa
+
+#145000
+1aaaaa
+b1110 aaaac
+
+#150000
+0aaaaa
+
+#155000
+1aaaaa
+b1111 aaaac
+
+#160000
+0aaaaa
+
+#165000
+1aaaaa
+b10000 aaaac
+
+#170000
+0aaaaa
+
+#175000
+1aaaaa
+b10001 aaaac
+r13.24E-10 aaaad
