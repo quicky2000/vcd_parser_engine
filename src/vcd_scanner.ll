@@ -122,7 +122,7 @@ Exponent (E|e)(\+|-)?{DecimalNumber}
 RealNumber -?({Digit})+(\.{Digit}+)?({Exponent})?
 PrintableCharacters [\41-\176]
 GenericIdentifier {PrintableCharacters}+
-SingleValue 0|1|x|X|z|Z
+SingleValue 0|1|x|X|z|Z|u|U|l|L
 VectorValue {SingleValue}+
 
 /* Location tracking */
