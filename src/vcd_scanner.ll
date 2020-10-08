@@ -119,7 +119,7 @@ Letter {LowerCaseLetter}|{UpperCaseLetter}
 Identifier ({Letter}|{Digit})({Letter}|{Digit}|\/|_|\[|\])*
 DecimalNumber ({Digit})+
 Exponent (E|e)(\+|-)?{DecimalNumber}
-RealNumber ({Digit})+(\.{Digit}+)?({Exponent})?
+RealNumber -?({Digit})+(\.{Digit}+)?({Exponent})?
 PrintableCharacters [\41-\176]
 GenericIdentifier {PrintableCharacters}+
 SingleValue 0|1|x|X|z|Z
