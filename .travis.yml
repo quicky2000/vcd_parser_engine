@@ -4,10 +4,19 @@ matrix:
       sudo: required
       dist: bionic
       compiler: gcc
+    - os: osx
+      osx_image: xcode10.3
 
 language: cpp
 
 before_install:
+# bison/flex specific part
+#-----------------------
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install bison ; export PATH=/usr/local/opt/bison/bin:$PATH ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install flex; export PATH=/usr/local/opt/flex/bin:$PATH ; fi
+# End of bison/flex specific part
+#-----------------------
   - MY_LOCATION=`pwd`
   - mkdir ../repositories
   - cd ..
@@ -25,7 +34,7 @@ before_install:
   - chmod a+x repositories/quicky_tools/bin/*
 
 script:
-  - mkdir build; cd build; generate_makefile vcd_parser_engine ; make test
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then mkdir build; cd build; generate_makefile vcd_parser_engine ; make test; fi
   - cd $MY_LOCATION ; mkdir cmake_build ; cd cmake_build ; cmake $QUICKY_REPOSITORY/vcd_parser_engine
   - make
   - ./vcd_parser_engine $QUICKY_REPOSITORY/vcd_parser_engine/test_cases/trace.vcd
