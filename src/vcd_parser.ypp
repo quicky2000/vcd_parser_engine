@@ -29,6 +29,7 @@
 %code requires
 {
     # include <string>
+    # include <cinttypes>
     typedef void* yyscan_t;
     namespace vcd_parser_engine
     {
@@ -59,14 +60,16 @@
 
 %token               END_OF_STREAM        0     "end of stream"
 %token               EOL                        "end of line"
-%token <uint64_t> INTEGER                    "integer"
-%token <double>  DOUBLE                     "double"
-%token <std::string>  STRING                     "string"
-%token               SEMICOLON                  ";"
-%token               COLON                      ":"
-%token               COMMA                      ","
-%token               EQUAL                      "="
-%token               TILD                       "~"
+%token <uint64_t>    INTEGER                    "integer"
+%token <double>      DOUBLE                     "double"
+%token <std::string> STRING                     "string"
+%token <std::string> BLOCK_CONTENT              "block content"
+%token               COMMENT                    "$comment"
+%token               TIMESCALE                  "$timescale"
+%token               DATE                       "$date"
+%token               VERSION                    "$version"
+%token               VAR                        "$var"
+%token               COLUMN                     ":"
 %token               UNKNOWN                    "unknown token"
 %printer { yyoutput << $$; } <*>;
 
