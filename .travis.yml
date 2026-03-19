@@ -2,7 +2,7 @@ matrix:
   include:
     - os: linux
       sudo: required
-      dist: bionic
+      dist: jammy
       compiler: gcc
 
 language: cpp
